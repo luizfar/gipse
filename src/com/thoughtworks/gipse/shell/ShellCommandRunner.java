@@ -2,25 +2,40 @@ package com.thoughtworks.gipse.shell;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class ShellCommandRunner {
 
   public String runCommand(String command) {
-    StringBuffer result = new StringBuffer();
     try {
       Process process = Runtime.getRuntime().exec(command);
-      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-      String line;
+      String result = read(process.getInputStream());
+      if ("".equals(result)) {
+        result = read(process.getErrorStream());
+      }
+      return result;
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    return "";
+  }
+  
+  private String read(InputStream inputStream) {
+    StringBuffer buffer = new StringBuffer();
+    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+    String line;
+    try {
       while ((line = reader.readLine()) != null) {
-        result.append(line);
-        result.append("\n");
+        buffer.append(line);
+        buffer.append("\n");
       }
       reader.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
     
-    return result.toString();
+    return buffer.toString().trim();
   }
 }

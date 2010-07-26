@@ -15,7 +15,8 @@ public class GipseOutputView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		viewer = new TextViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setInput(getViewSite());
-
+		viewer.setDocument(GipseOutputDocument.getGipseDocument());
+		
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "com.thoughtworks.gipse.viewer");
 	}

@@ -1,4 +1,4 @@
-package com.thoughtworks.gipse.popup.actions;
+package com.thoughtworks.gipse.actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,28 +11,38 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-import com.thoughtworks.gipse.git.GitAddCommand;
+import com.thoughtworks.gipse.shell.ShellCommandRunner;
+import com.thoughtworks.gipse.views.GipseOutputDocument;
 
-public class AddToIndexAction implements IObjectActionDelegate {
+public abstract class AbstractGitAction implements IObjectActionDelegate {
 
-  private List<IResource> files = new ArrayList<IResource>();
+  private List<String> resources = new ArrayList<String>();
+  
+  private ShellCommandRunner commandRunner = new ShellCommandRunner();
 
   public void setActivePart(IAction action, IWorkbenchPart targetPart) {
     
   }
 
   public void run(IAction action) {
-    System.out.println(new GitAddCommand(files).run());
-//    MessageDialog.openInformation(shell, "Gipse", result);
+    String result = commandRunner.runCommand(getCommand());
+    GipseOutputDocument.getGipseDocument().set(result);
   }
 
   public void selectionChanged(IAction action, ISelection selection) {
-    files.clear();
+    resources.clear();
     if (selection instanceof TreeSelection && !selection.isEmpty()) {
       TreeSelection treeSelection = (TreeSelection) selection;
       for (TreePath path : treeSelection.getPaths()) {
-        files.add((IResource) path.getLastSegment());
+        IResource resource = (IResource) path.getLastSegment();
+        resources.add(resource.getFullPath().removeFirstSegments(1).toString());
       }
     }
   }
+  
+  public List<String> getResources() {
+    return resources;
+  }
+  
+  public abstract String getCommand();
 }
