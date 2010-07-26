@@ -4,6 +4,6 @@ public class AddToIndexAction extends AbstractGitAction {
 
   @Override
   public String getCommand() {
-    return "git add" + getResourcesAsString();
+    return "add" + getResourcesAsString();
   }
 }

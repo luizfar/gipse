@@ -3,6 +3,7 @@ package com.thoughtworks.gipse.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -25,9 +26,13 @@ public abstract class AbstractGitAction implements IObjectActionDelegate {
   }
 
   public void run(IAction action) {
-    String text = "Running '" + getCommand() + "'\n";
-    text += commandRunner.runCommand(getCommand());
+    if (resources.isEmpty()) {
+      return;
+    }
     
+    String command = getFullCommand();
+    String text = "Running '" + command + "'\n";
+    text += commandRunner.runCommand(command);
     GipseOutputDocument.getGipseDocument().set(text);
   }
 
@@ -46,11 +51,19 @@ public abstract class AbstractGitAction implements IObjectActionDelegate {
     
     for (IResource resource : resources) {
       buffer.append(" ");
-      buffer.append(resource.getFullPath().makeRelative().removeFirstSegments(1));
+      buffer.append(resource.getProjectRelativePath());
     }
     
     return buffer.toString();
   }
   
   public abstract String getCommand();
+  
+  private String getFullCommand() {
+    IProject project = resources.get(0).getProject();
+    String workTree = project.getLocation().addTrailingSeparator().toString();
+    String gitDir = workTree + ".git/ ";
+    
+    return "git --work-tree=" + workTree + " --git-dir=" + gitDir + getCommand();
+  }
 }

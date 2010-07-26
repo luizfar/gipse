@@ -10,16 +10,22 @@
          <menu
                label="Gipse"
                path="additions"
-               id="com.thoughtworks.gipse.menu">
+               id="com.thoughtworks.gipse.fileMenu">
             <separator
-                  name="fileGroup">
+                  name="group1">
             </separator>
          </menu>
          <action
                label="Add to Index"
                class="com.thoughtworks.gipse.actions.AddToIndexAction"
-               menubarPath="com.thoughtworks.gipse.menu/fileGroup"
-               id="com.thoughtworks.gipse.newAction">
+               menubarPath="com.thoughtworks.gipse.fileMenu/group1"
+               id="com.thoughtworks.gipse.addToIndexAction">
+         </action>
+         <action
+               label="Status"
+               class="com.thoughtworks.gipse.actions.StatusAction"
+               menubarPath="com.thoughtworks.gipse.fileMenu/group1"
+               id="com.thoughtworks.gipse.statusAction">
          </action>
       </objectContribution>
    </extension>
@@ -34,7 +40,7 @@
             class="com.thoughtworks.gipse.views.GipseOutputView"
             icon="icons/sample.gif"
             id="com.thoughtworks.gipse.views.GipseOutputView"
-            name="Gipse git output view">
+            name="Gipse output">
       </view>
    </extension>
    <extension
