@@ -23,5 +23,37 @@
          </action>
       </objectContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="com.thoughtworks.gipse"
+            name="Gipse">
+      </category>
+      <view
+            category="com.thoughtworks.gipse"
+            class="com.thoughtworks.gipse.views.GipseOutputView"
+            icon="icons/sample.gif"
+            id="com.thoughtworks.gipse.views.GipseOutputView"
+            name="Gipse git output view">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="com.thoughtworks.gipse.views.GipseOutputView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.TaskList">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
 
 </plugin>

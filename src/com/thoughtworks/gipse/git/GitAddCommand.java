@@ -16,7 +16,7 @@ public class GitAddCommand extends GitCommand {
   protected String getCommand() {
     StringBuffer command = new StringBuffer("git add ");
     for (IResource resource : resources) {
-      command.append(resource.getFullPath().makeRelative() + " ");
+      command.append(resource.getFullPath().removeFirstSegments(1) + " ");
     }
     
     return command.toString();
