@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            id="com.thoughtworks.gipse.contribution1">
+         <menu
+               label="Gipse"
+               path="additions"
+               id="com.thoughtworks.gipse.menu">
+            <separator
+                  name="fileGroup">
+            </separator>
+         </menu>
+         <action
+               label="Add to Index"
+               class="com.thoughtworks.gipse.popup.actions.AddToIndexAction"
+               menubarPath="com.thoughtworks.gipse.menu/fileGroup"
+               id="com.thoughtworks.gipse.newAction">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>
